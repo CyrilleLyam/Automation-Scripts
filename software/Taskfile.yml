@@ -1,0 +1,57 @@
+version: '3'
+
+tasks:
+  postman:
+    desc: Install Postman via Snap
+    cmds:
+      - echo "📦 Installing Postman..."
+      - sudo snap install postman
+      - echo "✅ Postman installed."
+
+  pgadmin:
+    desc: Install pgAdmin 4 (desktop mode)
+    cmds:
+      - echo "📦 Installing pgAdmin 4..."
+      - curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+      - sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update && sudo apt install pgadmin4-desktop'
+      - rm -f pgadmin4.deb
+      - echo "✅ pgAdmin 4 installed."
+
+  mongo-compass:
+    desc: Install MongoDB Compass
+    cmds:
+      - echo "📦 Installing MongoDB Compass..."
+      - curl -LO https://downloads.mongodb.com/compass/mongodb-compass_1.42.3_amd64.deb
+      - sudo apt install -y ./mongodb-compass_1.42.3_amd64.deb
+      - rm -f mongodb-compass_1.42.3_amd64.deb
+      - echo "✅ MongoDB Compass installed."
+
+  vscode:
+    desc: Install Visual Studio Code
+    cmds:
+      - echo "📦 Installing Visual Studio Code..."
+      - sudo snap install --classic code 
+      - echo "✅ VS Code installed."
+
+  jetbrains-toolbox:
+    desc: Install JetBrains Toolbox (latest)
+    cmds:
+      - echo "📦 Downloading JetBrains Toolbox (latest)..."
+      - curl -L -o jetbrains-toolbox.tar.gz "https://data.services.jetbrains.com/products/download?platform=linux&code=TBA"
+      - mkdir -p jetbrains-toolbox-tmp
+      - tar -xzf jetbrains-toolbox.tar.gz -C jetbrains-toolbox-tmp --strip-components=1
+      - chmod +x jetbrains-toolbox-tmp/jetbrains-toolbox
+      - sudo mv jetbrains-toolbox-tmp/jetbrains-toolbox /usr/local/bin/jetbrains-toolbox
+      - rm -rf jetbrains-toolbox-tmp jetbrains-toolbox.tar.gz
+      - echo "✅ JetBrains Toolbox installed. Run 'jetbrains-toolbox &' to launch."      
+
+  essentials:
+    desc: Install all essential GUI tools (Postman, pgAdmin, Compass, VSCode)
+    cmds:
+      - task postman
+      - task pgadmin
+      - task mongo-compass
+      - task vscode
+      - task jetbrains-toolbox
+
+
