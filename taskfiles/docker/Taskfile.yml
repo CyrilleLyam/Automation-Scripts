@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  install:
+    desc: Install Docker Engine
+    cmds:
+      - sudo apt update
+      - sudo apt install -y docker.io
+      - sudo systemctl enable docker
+      - sudo systemctl start docker
+
+  setup:
+    desc: Install Docker
+    deps:
+      - install
+
