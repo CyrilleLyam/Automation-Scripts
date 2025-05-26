@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+  prereqs:
+    desc: Install base tools like curl
+    cmds:
+      - echo "📦 Installing prerequisites..."
+      - sudo apt update
+      - sudo apt install -y curl ca-certificates gnupg lsb-release software-properties-common
+      - echo "✅ Prerequisites installed."
+
+  sdkman:
+    desc: Install SDKMAN! (Java version manager)
+    cmds:
+      - echo "📦 Installing SDKMAN..."
+      - curl -s "https://get.sdkman.io" | bash
+      - echo "✅ SDKMAN installed. Run 'source ~/.sdkman/bin/sdkman-init.sh' or restart your terminal."
+
+  nvm:
+    desc: Install NVM (Node Version Manager)
+    cmds:
+      - echo "📦 Installing NVM..."
+      - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - echo "✅ NVM installed. Run 'source ~/.nvm/nvm.sh' or restart your terminal."
+
+  setup:
+    desc: Run full setup sequentially
+    cmds:
+      - task prereqs
+      - task sdkman
+      - task nvm
+
